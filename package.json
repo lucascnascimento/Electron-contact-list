@@ -58,6 +58,8 @@
     "typescript": "^3.7.0"
   },
   "dependencies": {
-    "electron-squirrel-startup": "^1.0.0"
+    "electron-squirrel-startup": "^1.0.0",
+    "knex": "^0.21.1",
+    "sqlite3": "^4.2.0"
   }
 }
