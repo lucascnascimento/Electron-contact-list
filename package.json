@@ -3,7 +3,7 @@
   "productName": "electron-contact-list",
   "version": "1.0.0",
   "description": "My Electron application description",
-  "main": "dist/src/index.js",
+  "main": "dist/index.js",
   "scripts": {
     "start": "tsc && electron-forge start",
     "package": "electron-forge package",
