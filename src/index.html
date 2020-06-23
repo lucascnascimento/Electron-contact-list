@@ -2,12 +2,75 @@
 <html>
   <head>
     <meta charset="UTF-8" />
-    <title>Hello World!</title>
+    <title>Electron Contact List</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css"
+    />
     <link rel="stylesheet" href="index.css" />
     <script defer src="../dist/src/render.js"></script>
+    <script
+      defer
+      src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"
+    ></script>
   </head>
   <body>
-    <h1>💖 Hello Worlddd!</h1>
-    <p>Welcome to your Electron application.</p>
+    <section class="section bottom-line">
+      <div class="container">
+        <form id="form">
+          <h1 class="title has-text-justified">Add Contact</h1>
+
+          <div class="field">
+            <label class="label is-size-7">Name</label>
+            <div class="control">
+              <input
+                class="input is-small"
+                type="text"
+                placeholder="Name"
+                required
+              />
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="label is-size-7">Email</label>
+            <div class="control">
+              <input class="input is-small" type="text" placeholder="Email" />
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="label is-size-7">Phone</label>
+            <div class="control">
+              <input class="input is-small" type="text" placeholder="Phone" />
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="label is-size-7">Adress</label>
+            <div class="control">
+              <input
+                class="input is-small"
+                type="text"
+                placeholder="Adress"
+                required
+              />
+            </div>
+          </div>
+
+          <div class="field is-grouped">
+            <div class="control">
+              <button class="button is-link is-small">Submit</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </section>
+    <section class="section">
+      <div class="container">
+        <ul id="myList"></ul>
+      </div>
+    </section>
   </body>
 </html>
