@@ -1,22 +1,25 @@
 const ipcRenderer = window.require("electron").ipcRenderer;
+// eslint-disable-next-line import/no-unresolved
+import { Contact } from "./shared/ContactInterface";
 
-interface Contact {
-  contactId: number;
-  name: string;
-  email: string;
-  phone: string;
-  adress: string;
-}
+// Form handling
+const form: HTMLFormElement = document.querySelector("#form");
 
-function handleSubmit(e: Event): void {
-  e.preventDefault();
-  const formData = new FormData(e.target as HTMLFormElement);
-  console.log(formData);
-}
+form.onsubmit = (): boolean => {
+  const formData = new FormData(form);
+  form.reset();
 
-const form = document.getElementById("form");
-form.addEventListener("submit", handleSubmit);
+  const formDataObject: { [k: string]: string } = {};
+  formData.forEach((value, key) => {
+    formDataObject[key] = value as string;
+  });
 
+  ipcRenderer.send("submitInfo", formDataObject);
+
+  return false;
+};
+
+// List of contacts handling
 document.addEventListener("DOMContentLoaded", function () {
   ipcRenderer.send("mainWindowLoaded");
   ipcRenderer.on("indexDatabaseLoaded", (event, arg) => {
