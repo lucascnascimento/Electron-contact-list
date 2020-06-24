@@ -25,6 +25,7 @@
             <label class="label is-size-7">Name</label>
             <div class="control">
               <input
+                name="name"
                 class="input is-small"
                 type="text"
                 placeholder="Name"
@@ -36,14 +37,24 @@
           <div class="field">
             <label class="label is-size-7">Email</label>
             <div class="control">
-              <input class="input is-small" type="text" placeholder="Email" />
+              <input
+                name="email"
+                class="input is-small"
+                type="text"
+                placeholder="Email"
+              />
             </div>
           </div>
 
           <div class="field">
             <label class="label is-size-7">Phone</label>
             <div class="control">
-              <input class="input is-small" type="text" placeholder="Phone" />
+              <input
+                name="phone"
+                class="input is-small"
+                type="text"
+                placeholder="Phone"
+              />
             </div>
           </div>
 
@@ -51,6 +62,7 @@
             <label class="label is-size-7">Adress</label>
             <div class="control">
               <input
+                name="adress"
                 class="input is-small"
                 type="text"
                 placeholder="Adress"
@@ -61,7 +73,13 @@
 
           <div class="field is-grouped">
             <div class="control">
-              <button class="button is-link is-small">Submit</button>
+              <button
+                id="submitButton"
+                class="button is-link is-small"
+                type="submit"
+              >
+                Submit
+              </button>
             </div>
           </div>
         </form>
