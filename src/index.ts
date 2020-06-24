@@ -1,6 +1,8 @@
-import { app, BrowserWindow, ipcMain } from "electron";
+import { app, BrowserWindow, ipcMain, IpcMainEvent } from "electron";
 import * as path from "path";
 import ContactController = require("./controllers/ContactController");
+// eslint-disable-next-line import/no-unresolved
+import { Contact } from "./shared/ContactInterface";
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require("electron-squirrel-startup")) {
@@ -20,15 +22,36 @@ const createWindow = (): void => {
 
   // and load the index.html of the app.
   mainWindow.loadFile(path.join(__dirname, "../../src/index.html"));
-
-  // Open the DevTools.
-  mainWindow.webContents.openDevTools();
 };
 
+// Helpers
+
+// This function return all contacts from the database and send an event to render
+// process with the response.
+function indexDatabase(event: IpcMainEvent): void {
+  ContactController.index().then((res) => {
+    event.reply("indexDatabaseLoaded", res);
+  });
+}
+
 // Events
-ipcMain.on("mainWindowLoaded", function () {
-  ContactController.index().then((res) => console.log(res));
+
+// When the window loads get all database contacts and send them to render process
+ipcMain.on("mainWindowLoaded", function (event: IpcMainEvent) {
+  indexDatabase(event);
 });
+
+// Create a contact register on the database
+ipcMain.on("submitInfo", function (event, args) {
+  ContactController.create(args as Contact).then((res) => {
+    if (res) {
+      indexDatabase(event);
+    } else {
+      console.log({ Error: "Contact not added" });
+    }
+  });
+});
+
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
