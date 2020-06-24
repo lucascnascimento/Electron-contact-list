@@ -17,7 +17,6 @@ export = {
 
   async create(req: Contact): Promise<number> {
     const [id] = await connection("contacts").insert({
-      contactId: req.contactId,
       name: req.name,
       email: req.email,
       phone: req.phone,
