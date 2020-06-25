@@ -1,6 +1,17 @@
 const ipcRenderer = window.require("electron").ipcRenderer;
-// eslint-disable-next-line import/no-unresolved
-import { Contact } from "./shared/ContactInterface";
+
+/*TODO: Create a UI contact card factory. Delete the respective UI from database
+  and send confirmation to delete from UI. Append created UI element as the last
+  from the LI list. Check for null rendering
+*/
+
+interface Contact {
+  contactId: number;
+  name: string;
+  email: string;
+  phone: string;
+  adress: string;
+}
 
 // Form handling
 const form: HTMLFormElement = document.querySelector("#form");
@@ -19,6 +30,13 @@ form.onsubmit = (): boolean => {
   return false;
 };
 
+// Handle delete
+function handleDelete(e: Event): void {
+  const btn: HTMLElement = e.target as HTMLElement;
+  const parentId: string = btn.closest("li").id;
+  ipcRenderer.send("deleteContact", parentId);
+}
+
 // List of contacts handling
 document.addEventListener("DOMContentLoaded", function () {
   ipcRenderer.send("mainWindowLoaded");
@@ -27,6 +45,7 @@ document.addEventListener("DOMContentLoaded", function () {
       // Create Elements
 
       const li = document.createElement("LI");
+      li.id = String(arg.contactId);
       const card = document.createElement("DIV");
       const header = document.createElement("HEADER");
       const pHeaderTitle = document.createElement("P");
@@ -38,6 +57,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       const deleteBtn = document.createElement("A");
       deleteBtn.id = "deleteBtn";
+      deleteBtn.addEventListener("click", handleDelete);
 
       // Attribute classes
 
