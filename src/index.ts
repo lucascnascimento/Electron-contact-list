@@ -55,8 +55,9 @@ ipcMain.on("submitInfo", function (event, args) {
 // Deletes the contact register on the database
 ipcMain.on("deleteContact", function (event, args) {
   ContactController.delete(Number(args)).then((res) => {
-    if (res[0] !== -1) {
-      indexDatabase(event);
+    if (res[0].contactId) {
+      event.reply("contactDataDeleted", res[0].contactId);
+      // indexDatabase(event);
     } else {
       console.log({ Error: "The register does not exist" });
     }

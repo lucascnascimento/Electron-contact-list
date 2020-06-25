@@ -26,16 +26,16 @@ export = {
     return id;
   },
 
-  async delete(req: number): Promise<number[]> {
-    const contact: number[] = await connection("contacts")
+  async delete(req: number): Promise<Contact[]> {
+    const contact: Contact[] = await connection("contacts")
       .where("contactId", req)
       .select();
 
-    if (contact) {
+    if (contact[0].contactId) {
       await connection("contacts").where("contactId", req).delete();
       return contact;
     }
 
-    return [-1];
+    return [];
   },
 };
