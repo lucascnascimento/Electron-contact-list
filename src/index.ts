@@ -27,7 +27,7 @@ const createWindow = (): void => {
 // Helpers
 
 // This function return all contacts from the database and send an event to render
-// process with the response.
+// the process with the response.
 function indexDatabase(event: IpcMainEvent): void {
   ContactController.index().then((res) => {
     event.reply("indexDatabaseLoaded", res);
@@ -48,6 +48,17 @@ ipcMain.on("submitInfo", function (event, args) {
       indexDatabase(event);
     } else {
       console.log({ Error: "Contact not added" });
+    }
+  });
+});
+
+// Deletes the contact register on the database
+ipcMain.on("deleteContact", function (event, args) {
+  ContactController.delete(Number(args)).then((res) => {
+    if (res[0] !== -1) {
+      indexDatabase(event);
+    } else {
+      console.log({ Error: "The register does not exist" });
     }
   });
 });
