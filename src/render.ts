@@ -72,24 +72,24 @@ function contactCardFactory(arg: Contact): HTMLElement {
   // Attribute texts
 
   const textTitle = document.createTextNode(arg.name);
-  const textAdress = document.createTextNode(arg.adress);
-  const textEmail = document.createTextNode(arg.email);
-  const textNumber = document.createTextNode(arg.phone);
+  const textAdress = document.createTextNode(`Adress.: ${arg.adress}`);
+  const textEmail = document.createTextNode(`Email.: ${arg.email}`);
+  const textNumber = document.createTextNode(`Phone.: ${arg.phone}`);
   const btnText = document.createTextNode("Delete");
 
   // Build structure
 
   pHeaderTitle.appendChild(textTitle);
-  adress.appendChild(textAdress);
   email.appendChild(textEmail);
   number.appendChild(textNumber);
+  adress.appendChild(textAdress);
   deleteBtn.appendChild(btnText);
 
   footer.appendChild(deleteBtn);
 
-  cardContent.appendChild(adress);
   cardContent.appendChild(email);
   cardContent.appendChild(number);
+  cardContent.appendChild(adress);
 
   header.appendChild(pHeaderTitle);
 
