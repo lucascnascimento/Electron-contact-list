@@ -31,7 +31,7 @@ const createWindow = (): void => {
 // When the window loads get all database contacts and send them to render process
 ipcMain.on("mainWindowLoaded", function (event: IpcMainEvent) {
   ContactController.index().then((res) => {
-    if (res.length > 1) event.reply("indexDatabaseLoaded", res);
+    if (res.length > 0) event.reply("indexDatabaseLoaded", res);
   });
 });
 
