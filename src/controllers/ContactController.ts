@@ -1,12 +1,7 @@
 import connection = require("../database/connection");
 
-interface Contact {
-  contactId: number;
-  name: string;
-  email: string;
-  phone: string;
-  adress: string;
-}
+// eslint-disable-next-line import/no-unresolved
+import { Contact } from "../shared/ContactInterface";
 
 export = {
   async index(): Promise<Contact[]> {
