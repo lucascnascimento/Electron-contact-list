@@ -24,28 +24,20 @@ const createWindow = (): void => {
   mainWindow.loadFile(path.join(__dirname, "../../src/index.html"));
 };
 
-// Helpers
-
-// This function return all contacts from the database and send an event to render
-// the process with the response.
-function indexDatabase(event: IpcMainEvent): void {
-  ContactController.index().then((res) => {
-    event.reply("indexDatabaseLoaded", res);
-  });
-}
-
 // Events
 
 // When the window loads get all database contacts and send them to render process
 ipcMain.on("mainWindowLoaded", function (event: IpcMainEvent) {
-  indexDatabase(event);
+  ContactController.index().then((res) => {
+    event.reply("indexDatabaseLoaded", res);
+  });
 });
 
 // Create a contact register on the database
 ipcMain.on("submitInfo", function (event, args) {
   ContactController.create(args as Contact).then((res) => {
-    if (res) {
-      indexDatabase(event);
+    if (res.contactId) {
+      event.reply("appendNewContact", res);
     } else {
       console.log({ Error: "Contact not added" });
     }
@@ -57,7 +49,6 @@ ipcMain.on("deleteContact", function (event, args) {
   ContactController.delete(Number(args)).then((res) => {
     if (res[0].contactId) {
       event.reply("contactDataDeleted", res[0].contactId);
-      // indexDatabase(event);
     } else {
       console.log({ Error: "The register does not exist" });
     }

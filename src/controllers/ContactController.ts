@@ -15,7 +15,7 @@ export = {
     return contacts;
   },
 
-  async create(req: Contact): Promise<number> {
+  async create(req: Contact): Promise<Contact> {
     const [id] = await connection("contacts").insert({
       name: req.name,
       email: req.email,
@@ -23,7 +23,11 @@ export = {
       adress: req.adress,
     });
 
-    return id;
+    const contact: Contact[] = await connection("contacts")
+      .where("contactId", id)
+      .select();
+
+    return contact[0];
   },
 
   async delete(req: number): Promise<Contact[]> {
