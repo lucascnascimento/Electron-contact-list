@@ -39,7 +39,7 @@ function handleDelete(e: Event): void {
 }
 
 // Creates a UI contact card component
-function contactCardFactory(arg: Contact): void {
+function contactCardFactory(arg: Contact): HTMLElement {
   // Create Elements
 
   const li = document.createElement("LI");
@@ -100,18 +100,28 @@ function contactCardFactory(arg: Contact): void {
   li.appendChild(card);
   li.style.padding = "16px 0px";
 
-  document.getElementById("myList").appendChild(li);
+  return li;
 }
 
 // List of contacts handling
 document.addEventListener("DOMContentLoaded", function () {
   ipcRenderer.send("mainWindowLoaded");
   ipcRenderer.on("indexDatabaseLoaded", (event, arg) => {
-    arg.map((arg: Contact) => contactCardFactory(arg));
+    arg
+      .reverse()
+      .map((arg: Contact) =>
+        document.getElementById("myList").appendChild(contactCardFactory(arg))
+      );
   });
 });
 
+// Removes contact card from UI
 ipcRenderer.on("contactDataDeleted", function (event, arg) {
   const li = document.getElementById(arg);
   li.remove();
+});
+
+ipcRenderer.on("appendNewContact", function (event, arg) {
+  const ul = document.getElementById("myList");
+  ul.insertBefore(contactCardFactory(arg), ul.firstChild);
 });
