@@ -1,11 +1,5 @@
 const ipcRenderer = window.require("electron").ipcRenderer;
 
-// TODO
-/*TODO: Create a UI contact card factory. Delete the respective UI from database
-  and send confirmation to delete from UI. Append created UI element as the last
-  from the LI list. Check for null rendering
-*/
-
 interface Contact {
   contactId: number;
   name: string;
@@ -103,7 +97,7 @@ function contactCardFactory(arg: Contact): HTMLElement {
   return li;
 }
 
-// List of contacts handling
+// List all the contacts from database
 document.addEventListener("DOMContentLoaded", function () {
   ipcRenderer.send("mainWindowLoaded");
   ipcRenderer.on("indexDatabaseLoaded", (event, arg) => {
@@ -121,6 +115,7 @@ ipcRenderer.on("contactDataDeleted", function (event, arg) {
   li.remove();
 });
 
+// Appends newly created card to the contact list
 ipcRenderer.on("appendNewContact", function (event, arg) {
   const ul = document.getElementById("myList");
   ul.insertBefore(contactCardFactory(arg), ul.firstChild);
